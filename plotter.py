@@ -1,4 +1,9 @@
-def plot_2d(name,offset,height):
+import os
+import pandas as pd
+import openpyxl
+import numpyp as np
+
+def parce(name,height):
     delay = 10
     global results
     timelines = []
@@ -13,14 +18,17 @@ def plot_2d(name,offset,height):
             raw = line.strip()
             voltage_list.append(raw)
             timelines.append(timeline)
-    voltage_arr = np.array(voltage_list)
-    timelines_arr = np.array(timelines)
     df = pd.DataFrame({
-        "Time": timelines_arr,
-        "voltage":voltage_arr
+        "Time": timelines,
+        "voltage":voltage_list
     })
 
-    df.to_excel(f"EMF {height}cm.xlsx", index=False)
+    df.to_excel(os.path.join('storage',f"EMF {height}cm.xlsx"), index=False)
+
+def plot_2d_time(name):
+
+    with open(os.path.join('storage',name), "r") as f:
+        for line in f:
 
     plt.plot(timelines_arr, voltage_arr, label = "Electromotive Force", color = (0.0, 0.0, 1.0, 1.0), linestyle="-", marker="")
 
