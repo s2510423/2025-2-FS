@@ -35,7 +35,20 @@ def get_offset_std(foldername,filename,save='noise'):
     voltage_arr = voltage.to_numpy()
     print(np.mean(voltage_arr))
     print(np.std(voltage_arr))
-    
+
+def double_thanos(foldername,filename,save = 'downscaled):
+    df = pd.read_excel(os.path.join('storage',foldername,filename), engine='openpyxl', header=0)
+    voltage = df.voltage
+    time = df.Time
+    voltage_arr = voltage.to_numpy()[::4]
+    time_arr = time.to_numpy()[::4]
+    df2 = pd.DataFrame({
+        'Time': time_arr,
+        'voltage': voltage_arr
+    })
+    df2.to_excel(os.path.join('storage',foldername,f'{save}.xlsx'))
+
+
 def unoffset(foldername,filename,save='unoffset'):
     df = pd.read_excel(os.path.join('storage',foldername,filename),engine='openpyxl',header=0)
     voltage = df.voltage
